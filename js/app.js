@@ -5,8 +5,9 @@ const game = new Game();
  */
 document.getElementById('begin-game').addEventListener('click', function(){
     game.startGame();
-    this.style.display = 'none';
-    document.getElementById('play-area').style.opacity = '1';
+    this.style.display = 'none'; // Hide the start button
+    document.getElementById('play-area').style.opacity = '1'; // Show the game board
+    document.getElementById('welcome-section').style.display = 'none'; // Hide welcome message and instructions
 });
 
 /**

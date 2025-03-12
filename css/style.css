@@ -1,12 +1,18 @@
 /* BACKGROUND AND BODY */
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 body {
     margin: 0;
     padding: 0;
     background-color: #303853;
-	  font-family: 'Wendy One', sans-serif;
-	  font-size: 1.5em;
-	  color: white;
-	  text-align: center;
+	font-family: 'Wendy One', sans-serif;
+	font-size: 1.5em;
+	color: white;
+	text-align: center;
     background: rgb(48,56,83); /* Old browsers */
     background: -moz-linear-gradient(top, rgba(48,56,83,1) 0%, rgba(32,38,55,1) 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, rgba(48,56,83,1) 0%,rgba(32,38,55,1) 100%); /* Chrome10-25,Safari5.1-6 */
@@ -18,6 +24,8 @@ body {
     width: 100%;
     position: relative;
     z-index: 9;
+    flex-grow: 1;
+    padding-bottom: 60px;
 }
 
 .table {
@@ -25,49 +33,54 @@ body {
     z-index: 10;
     width: 100%;
     position: fixed;
-    height: 100%;
+    height: auto;
+}
+
+#button-container {
+    text-align: center;
+    margin-top: 20px;
 }
 
 #begin-game {
 	width: 200px;
 	background-color: #645a7e;
 	border-radius: 8px;
-  color: #fff;
+    color: #fff;
 	padding: 25px;
 	position: absolute;
 	left: 0;
 	right: 0;
 	margin: 0 auto;
-	top: 200px;
+	top: 900px;
 	z-index: 200;
 	cursor: pointer;
 	border: none;
-  font-family: 'Wendy One', sans-serif;
-  font-size: 25px;
+    font-family: 'Wendy One', sans-serif;
+    font-size: 25px;
 }
 
 /* BOARD AND PIECES */
 #game-board {
-	position: relative;
+    position: relative;
 	width: 548px;
 	margin: 0 auto;
 	border: 8px solid #5FCF80;
 	height: 472px;
 	border-radius: 7px;
 	float: left;
-  z-index: 15;
-  box-sizing: border-box;
+    z-index: 15;
+    box-sizing: border-box;
 }
 
 #game-board-underlay {
-  position: absolute;
+    position: absolute;
 	width: 548px;
 	height: 472px;
     /*box-sizing: border-box;*/
 	margin: 0 auto;
-  left: 0;
-  right: 0;
-  border: 16px solid transparent;
+    left: 0;
+    right: 0;
+    border: 16px solid transparent;
 }
 
 #play-area {
@@ -150,4 +163,60 @@ circle {
 	top: -60px;
 	left: 0;
 	right: 0;
+}
+
+/* Welcome Header */
+.welcome-header {
+    text-align: center;
+    font-size: 24px;
+    color: #FFD700;
+    margin-top: 20px;
+}
+
+/* Instructions */
+.instructions {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    margin: 20px auto;
+    text-align: left;
+    font-size: 1.2em;
+}
+
+.instructions h2 {
+    text-align: center;
+    color: #5FCF80;
+}
+
+.instructions ul {
+    list-style: none;
+    padding: 0;
+}
+
+.instructions li {
+    padding: 10px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    font-size: 1em;
+    padding: 20px;
+    background: #222;
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    pointer-events: auto;
+    z-index: 1000;
+}
+
+.footer a {
+    color: #FFD700;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
 }

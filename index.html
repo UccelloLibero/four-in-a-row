@@ -1,20 +1,42 @@
 <html>
     <head>
         <meta charset = "UTF-8">
-        <title>Four in a Row with Treehouse</title>
+        <title>Connect 4</title>
         <link href="https://fonts.googleapis.com/css?family=Wendy+One" rel="stylesheet">
         <link rel = "stylesheet" type = "text/css" href = "css/style.css" />
     </head>
 
     <body>
+        <!-- Welcome section -->
+         <div id="welcome-section">
+            <header class="welcome-header">
+                <h1>Welcome to Connect 4!</h1>
+                <p>Drop your tokens, connect four, and outsmart your opponent!</p>
+            </header>
+    
+            <!-- Instructions -->
+             <section class="instructions">
+                <h2>How to play:</h2>
+                <ul>
+                    <li>Player 1 uses red tokens.</li> 
+                    <li>Player 2 uses yellow tokens.</li>
+                    <li>Drop your tokens using **left** and **right** arrow keys, then press **down** to place it.</li>
+                    <li>The first to connect **four in a row** (vertically, horizontally, or diagonally) wins!</li>
+                    <li>Play as many times as you want. Just hit "Play Again" when the game ends!</li>
+                </ul>
+             </section>
+         </div>
 
 		<!--
 			Start Game Button
 			When a player clicks this button, the game will begin
 		-->
-    	<button id = "begin-game">
-    		Start
-    	</button>
+        <div id="button-container">
+            <button id = "begin-game">
+                Start
+            </button>
+        </div>
+    	
 
 
 		<!--
@@ -92,6 +114,12 @@
 		-->
         <div class = "table">
         </div>
+
+        <!-- Footer -->
+         <footer class="footer">
+            <p>© Maya - Built with ♥️</p>
+            <p><a href="https://github.com/UccelloLibero/four-in-a-row" target="_blank">View the source code on GitHub</a></p>
+         </footer>
     </body>
 </html>
 

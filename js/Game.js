@@ -101,21 +101,30 @@ class Game {
   updateGameState(token, target) {
     target.mark(token);
 
-    if(!this.checkForWin(target)) {
-      console.log('no win');
-      this.switchPlayers();
+    if (!this.checkForWin(target)) {
+        console.log('No win');
+        this.switchPlayers();
 
-      if(this.activePlayer.checkTokens()) {
-        this.activePlayer.activeToken.drawHTMLToken();
-        this.ready = true;
-      } else {
-        this.gameOver('There are no more tokens!');
-      }
+        if (this.activePlayer.checkTokens()) {
+            this.activePlayer.activeToken.drawHTMLToken();
+            this.ready = true;
+        } else {
+            this.ready = false;
+            this.gameOver('There are no more tokens!');
+        }
 
     } else {
-      console.log('win');
-      this.gameOver(`${target.owner.name} wins!`);
-    }
+        console.log('Win detected');
+        this.ready = false;
+
+        // 🛠 Fix: Ensure target has a token before accessing owner
+        if (target.token && target.token.owner) {
+            this.gameOver(`${target.token.owner.name} wins!`);
+        } else {
+            console.error('Error: Target token owner is undefined.');
+            this.gameOver(`Game Over!`);
+        }
+    } 
   }
 
   /**
@@ -123,65 +132,80 @@ class Game {
   * @param   {Object}    target - Targeted space for dropped token.
   * @return  {boolean}   Boolean value indicating whether the game has been won (true) or not (false)
   */
-  checkForWin(target){
-  	const owner = target.token.owner;
-  	let win = false;
-	  console.log('checkForWin called');
+  checkForWin(target) {
+    const owner = target.token.owner;
+    console.log(`Checking win condition for ${owner.name}`);
 
-  	 // vertical
-  	 for (let x = 0; x < this.board.columns; x++ ) {
-       for (let y = 0; y < this.board.rows - 3; y++) {
-         console.log(x,y);
-         console.log(y+1);
-         console.log(y+2);
-         console.log(y+3);
-         if (this.board.spaces[x][y].owner === owner &&
-           this.board.spaces[x][y+1].owner === owner &&
-  	 			this.board.spaces[x][y+2].owner === owner &&
-  	 			this.board.spaces[x][y+3].owner === owner) {
-             win = true;
-             console.log(win);
-           }
-         }
-       }
-
-  	// horizontal
-  	for (let x = 0; x < this.board.columns - 3; x++ ){
-      for (let y = 0; y < this.board.rows; y++){
-        if (this.board.spaces[x][y].owner === owner &&
-          this.board.spaces[x+1][y].owner === owner &&
-  				this.board.spaces[x+2][y].owner === owner &&
-  				this.board.spaces[x+3][y].owner === owner) {
-            win = true;
-          }
+    // Vertical win
+    for (let x = 0; x < this.board.columns; x++) {
+        for (let y = 0; y < this.board.rows - 3; y++) {
+            if (this.board.spaces[x][y].token &&
+                this.board.spaces[x][y].token.owner === owner &&
+                this.board.spaces[x][y + 1].token &&
+                this.board.spaces[x][y + 1].token.owner === owner &&
+                this.board.spaces[x][y + 2].token &&
+                this.board.spaces[x][y + 2].token.owner === owner &&
+                this.board.spaces[x][y + 3].token &&
+                this.board.spaces[x][y + 3].token.owner === owner) {
+                console.log(`Vertical win detected at column ${x}, row ${y}`);
+                return true; // STOP searching
+            }
         }
-      }
-
-  	// diagonal
-  	for (let x = 3; x < this.board.columns; x++ ){
-      for (let y = 0; y < this.board.rows - 3; y++){
-        if (this.board.spaces[x][y].owner === owner &&
-          this.board.spaces[x-1][y+1].owner === owner &&
-  				this.board.spaces[x-2][y+2].owner === owner &&
-  				this.board.spaces[x-3][y+3].owner === owner) {
-            win = true;
-          }
-        }
-      }
-
-  	// diagonal
-  	for (let x = 3; x < this.board.columns; x++ ){
-      for (let y = 3; y < this.board.rows; y++){
-        if (this.board.spaces[x][y].owner === owner &&
-          this.board.spaces[x-1][y-1].owner === owner &&
-  				this.board.spaces[x-2][y-2].owner === owner &&
-  				this.board.spaces[x-3][y-3].owner === owner) {
-            win = true;
-          }
-        }
-      }
-      return win;
     }
+
+    // Horizontal win
+    for (let x = 0; x < this.board.columns - 3; x++) {
+        for (let y = 0; y < this.board.rows; y++) {
+            if (this.board.spaces[x][y].token &&
+                this.board.spaces[x][y].token.owner === owner &&
+                this.board.spaces[x + 1][y].token &&
+                this.board.spaces[x + 1][y].token.owner === owner &&
+                this.board.spaces[x + 2][y].token &&
+                this.board.spaces[x + 2][y].token.owner === owner &&
+                this.board.spaces[x + 3][y].token &&
+                this.board.spaces[x + 3][y].token.owner === owner) {
+                console.log(`Horizontal win detected at column ${x}, row ${y}`);
+                return true; // STOP searching
+            }
+        }
+    }
+
+    // Diagonal (\) win
+    for (let x = 0; x < this.board.columns - 3; x++) {
+        for (let y = 0; y < this.board.rows - 3; y++) {
+            if (this.board.spaces[x][y].token &&
+                this.board.spaces[x][y].token.owner === owner &&
+                this.board.spaces[x + 1][y + 1].token &&
+                this.board.spaces[x + 1][y + 1].token.owner === owner &&
+                this.board.spaces[x + 2][y + 2].token &&
+                this.board.spaces[x + 2][y + 2].token.owner === owner &&
+                this.board.spaces[x + 3][y + 3].token &&
+                this.board.spaces[x + 3][y + 3].token.owner === owner) {
+                console.log(`Diagonal (\\) win detected at column ${x}, row ${y}`);
+                return true; // STOP searching
+            }
+        }
+    }
+
+    // Diagonal (/) win
+    for (let x = 0; x < this.board.columns - 3; x++) {
+        for (let y = 3; y < this.board.rows; y++) {
+            if (this.board.spaces[x][y].token &&
+                this.board.spaces[x][y].token.owner === owner &&
+                this.board.spaces[x + 1][y - 1].token &&
+                this.board.spaces[x + 1][y - 1].token.owner === owner &&
+                this.board.spaces[x + 2][y - 2].token &&
+                this.board.spaces[x + 2][y - 2].token.owner === owner &&
+                this.board.spaces[x + 3][y - 3].token &&
+                this.board.spaces[x + 3][y - 3].token.owner === owner) {
+                console.log(`Diagonal (/) win detected at column ${x}, row ${y}`);
+                return true; // STOP searching
+            }
+        }
+    }
+
+    return false; // No win found
+  }
 
   // switches active players
   // iterate through the array of Players for each Player object, switch the value of its active property, if the active property is set to true, it should now be set to false and vice versa
@@ -197,11 +221,21 @@ class Game {
    * @param {string} message - Game over message.
    */
   gameOver(message) {
-    document.getElementById('game-over').style.display = 'block';
-    document.getElementById('game-over').textContent = message;
+    const gameOverScreen = document.getElementById('game-over');
+    gameOverScreen.style.display = 'block';
+    gameOverScreen.innerHTML = `
+        <div style="background: rgba(0, 0, 0, 0.8); color: white; padding: 20px; border-radius: 10px;">
+            <h1>${message}</h1>
+            <button id="restart-game" style="padding: 10px 20px; font-size: 20px; cursor: pointer; font-family: 'Wendy One', sans-serif; border-radius: 5px; background: #e59a13;">
+                Play Again
+            </button>
+        </div>
+    `;
+
+    // Add event listener to restart game
+    document.getElementById('restart-game').addEventListener('click', () => {
+        window.location.reload(); // Simple way to restart
+    });
   }
-
-
-
 
 }
