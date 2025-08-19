@@ -1,4 +1,7 @@
 # Four in a Row
+
+![Four in a Row Demo Screenshot](https://github.com/UccelloLibero/four-in-a-row/blob/master/connect-4-preview.png)
+
 Four in a Row is a browser-based Connect Four game developed using JavaScript. The game allows two players to compete against each other or play against the computer. While it works with every browser, for the best experience, it is recommended to use Chrome.
 
 
